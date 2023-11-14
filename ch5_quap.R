@@ -3,12 +3,13 @@
 # lies at the Maximum A Posteriori est (MAP)
 
 height.adult.modelDefinition <- function() {
+  # mean 178
   # stdiv high = 20, low = 0.1
 
   alist(
-    height ~ dnorm( mu, sigma ),
-    mu     ~ dnorm( 178, 0.1 ),
-    sigma  ~ dunif( 0, 50 )
+    height ~ dnorm( mu, sigma ), # Likelihood
+    mu     ~ dnorm( 178, 0.1 ),  # Mean prior
+    sigma  ~ dunif( 0, 50 )      # Standard deviation prior
   )
 }
 
