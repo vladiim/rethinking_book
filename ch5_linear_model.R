@@ -1,4 +1,4 @@
-#### Model average height posterior approximaiont
+#### Model average height posterior approximaion
 
 heightWeight.posterior <- function() {
   # Equation: https://capture.dropbox.com/kov9DZoJFl5eBpKo
@@ -9,7 +9,7 @@ heightWeight.posterior <- function() {
 
   fit <- quap(alist(
     height ~ dnorm(mu, sigma),
-    mu <- a + b * (weight - xbar),
+    mu <- a + b * (weight - mean(weight)),
     a ~ dnorm(178, 20),
     b ~ dlnorm(0, 1),
     sigma ~ dunif(0, 50)
@@ -17,6 +17,21 @@ heightWeight.posterior <- function() {
   fit
 }
 
+### Understand the model
+
+heightWeight.posterior.statTable <- function() heightWeight.posterior() %>% precis()
+
+heightWeight.posterior.coVariation <- function() heightWeight.posterior() %>% vcov(3)
+
+heightWeight.posterior.plot <- function() {
+  # Shows how well the linear model fits the data
+  d <- height.adult() 
+  plot(height ~ weight, data = d, col = rangi2)
+  posterior <- extract.samples(heightWeight.posterior())
+  a_map <- mean(posterior$a)
+  b_map <- mean(posterior$b)
+  curve(a_map + b_map * (x - mean(d$weight)), add = TRUE)
+}
 
 
 #### Display average heights
