@@ -33,6 +33,34 @@ heightWeight.posterior.plot <- function() {
   curve(a_map + b_map * (x - mean(d$weight)), add = TRUE)
 }
 
+### Understand the mu height distribution for every weight value
+
+heightWeight.muDist <- function() {
+  # gets a dist for every individual, not every weight
+  # link(heightWeight.posterior())
+
+  # define all the possible weights
+  weight.seq <- seq(from = 25, to = 70, by = 1)
+  link(heightWeight.posterior(), data = data.frame(weight = weight.seq))
+}
+
+### Understand the distribution for a specific attribute, e.g. weight = 50kg, what is the height distribution?
+
+heightWeight.attr.mu <- function(weight = 50) {
+  d <- height.adult() 
+  posterior <- extract.samples(heightWeight.posterior())
+  posterior$a + posterior$b * (weight - mean(d$weight))
+}
+
+heightWeight.attr.mu.plot <- function(weight = 50) {
+  heightWeight.attr.mu(weight) %>%
+    dens(col = rangi2, lwd = 2, xlab = paste0("mu|weight=", weight))
+}
+
+heightWeight.attr.mu.probabilityInterval <- function(weight = 50, interval = 0.9) {
+  heightWeight.attr.mu(weight) %>% PI(prob = interval) 
+}
+
 
 #### Display average heights
 
