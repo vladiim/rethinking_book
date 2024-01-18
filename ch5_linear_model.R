@@ -44,6 +44,15 @@ heightWeight.muDist <- function() {
   link(heightWeight.posterior(), data = data.frame(weight = weight.seq))
 }
 
+heightWeight.muDist.summary <- function() {
+  mu <- heightWeight.muDist()
+  mu.mean <- apply(mu, 2, mean)
+  mu.PI <- apply(mu, 2, PI, prob = 0.89)
+#  mu.mean
+  mu.PI
+}
+
+
 ### Understand the distribution for a specific attribute, e.g. weight = 50kg, what is the height distribution?
 
 heightWeight.attr.mu <- function(weight = 50) {
