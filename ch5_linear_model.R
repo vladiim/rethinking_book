@@ -35,6 +35,8 @@ heightWeight.posterior.plot <- function() {
 
 ### Understand the mu height distribution for every weight value
 
+weight.seq <- function() seq(from = 25, to = 70, by = 1)
+
 heightWeight.muDist <- function() {
   # gets a dist for every individual, not every weight
   # link(heightWeight.posterior())

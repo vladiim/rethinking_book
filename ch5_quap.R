@@ -2,13 +2,17 @@
 # Making inferences about the shape of the posterior
 # lies at the Maximum A Posteriori est (MAP)
 
+m4.3 <- function() height.adult.modelFit()
+
 height.adult.modelDefinition <- function() {
   # mean 178
   # stdiv high = 20, low = 0.1
 
   alist(
     height ~ dnorm( mu, sigma ), # Likelihood
-    mu     ~ dnorm( 178, 0.1 ),  # Mean prior
+    mu     ~ a + b*( weight - mean(height.adult()$weight)),  # Mean prior
+    a ~ dnorm( 178, 20 ),
+    b ~ dlnorm(0, 1),
     sigma  ~ dunif( 0, 50 )      # Standard deviation prior
   )
 }
